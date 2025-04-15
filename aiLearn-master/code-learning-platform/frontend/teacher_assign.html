@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>布置作业</title>
+  <link rel="stylesheet" href="ink-theme.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>布置作业</h2>
+  <div id="back-button"></div>
+
+  <form id="assign-form">
+    <label>课程名:
+      <select id="course" required>
+        <option value="Python 入门">Python 入门</option>
+        <option value="算法课程">算法课程</option>
+      </select><br>
+    </label>
+
+    <label>作业内容:
+      <textarea id="content" rows="5" cols="40" required></textarea><br>
+    </label>
+
+    <button type="submit">发布作业</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script src="js/navigation.js"></script>
+  <script src="js/logout.js"></script>
+  <script>
+    renderGoHomeButton("#back-button");
+    renderLogoutButton();
+
+    document.getElementById('assign-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const course = document.getElementById('course').value;
+      const content = document.getElementById('content').value;
+
+      fetch('/api/teacher/assignments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ course, content })
+      })
+      .then(response => response.json())
+      .then(result => {
+        document.getElementById('result').textContent = result.message || result.error;
+      })
+      .catch(error => {
+        document.getElementById('result').textContent = '提交失败，请稍后再试。';
+        console.error(error);
+      });
+    });
+  </script>
+</body>
+</html>

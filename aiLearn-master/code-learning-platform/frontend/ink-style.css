@@ -1,0 +1,277 @@
+:root {
+  --ink-black: #2a2a2a;
+  --vermillion: #9d1f1f;
+  --gold-leaf: #d4af37;
+  --rice-paper: #f8f4e8;
+  --ink-blue: #5d7b8c;
+  --fish-speed: 15s;
+  --ink-transition: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Source Han Serif CN', 'SimSun', serif;
+  background-color: var(--rice-paper);
+  overflow: hidden;
+  height: 100vh;
+}
+
+.ink-container {
+  background: var(--rice-paper);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-bg::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('/images/img.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 1; /* 原来是 0.1，现在是完全不透明 */
+  pointer-events: none;
+  z-index: -1;
+}
+
+
+.login-form {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 400px;
+  margin: 15vh auto 0;
+  padding: 2rem;
+  background-color: rgba(255,255,255,0.65);
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.15);
+  animation: scrollOpen 1.2s var(--ink-transition);
+}
+
+.ink-title {
+  text-align: center;
+  color: var(--ink-black);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.ink-input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+  color: var(--ink-black);
+}
+
+.input-group label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #888;
+  font-size: 0.9rem;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.ink-input:focus + label,
+.ink-input:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 0;
+  font-size: 0.75rem;
+  color: var(--vermillion);
+}
+
+.ink-bar {
+  height: 2px;
+  width: 100%;
+  background: var(--vermillion);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.ink-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--ink-wash);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.ink-btn:hover {
+  background: var(--vermillion);
+}
+
+/* 金鱼背景画布 */
+#inkCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: transparent;
+}
+
+/* 卷轴展开动画 */
+@keyframes scrollOpen {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+.register-container {
+  text-align: center;
+  margin-top: 20px;
+}
+#register-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #3faffa;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#register-btn:hover {
+  background-color: #2d78d3;
+}
+
+.register-btn {
+  color: var(--vermillion);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.register-btn:hover {
+  color: var(--gold-leaf);
+}
+
+
+
+/* ==== 基础设置 ==== */
+body.ink-theme {
+  margin: 0;
+  padding: 0;
+  font-family: "STKaiti", "KaiTi", "宋体", serif;
+  color: #222;
+  background-color: #f2f2f2;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 水墨动画覆盖层 */
+.ink-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 70%);
+  animation: inkFade 6s infinite alternate;
+  z-index: -1;
+}
+
+@keyframes inkFade {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 0.9; transform: scale(1.05); }
+}
+
+/* ==== 表单容器样式（可叠加） ==== */
+.ink-container {
+  position: relative;
+  z-index: 10;
+}
+
+/* ==== 按钮样式 ==== */
+.ink-button {
+  background: linear-gradient(to right, #2c2c2c, #000);
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.ink-button:hover {
+  background: #1a1a1a;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* 次级按钮 */
+.ink-button.secondary {
+  background: transparent;
+  color: #333;
+  border: 1px solid #333;
+  transition: all 0.3s ease;
+}
+
+.ink-button.secondary:hover {
+  background: #333;
+  color: #fff;
+}
+
+/* ==== 表单输入框 ==== */
+.ink-form input,
+.ink-form select {
+  padding: 12px;
+  width: 100%;
+  font-size: 1rem;
+  font-family: "KaiTi", serif;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.ink-form input:focus,
+.ink-form select:focus {
+  border-color: #666;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  background-color: #fefefe;
+}
+
+/* ==== 提示消息 ==== */
+.ink-message {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  font-family: "FangSong", serif;
+}
+
+/* ==== 粒子动画容器（配合 JS） ==== */
+canvas.ink-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ==== 动画淡入 ==== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

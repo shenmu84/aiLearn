@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>页面未找到 - 404</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ink-style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('images/404.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: "KaiTi", "楷体", serif;
+            color: #333;
+        }
+
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 1.8em;
+            animation: fadeIn 2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .center-text h1 {
+            font-size: 3.2em;
+            margin-bottom: 0.2em;
+        }
+
+        .center-text p {
+            font-size: 1em;
+        }
+
+        .btn-back {
+            margin-top: 1.5em;
+            padding: 8px 18px;
+            background-color: #222;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #444;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+    </style>
+</head>
+<body>
+    <div class="center-text">
+        <h1>404</h1>
+        <p>很抱歉，您访问的页面不存在</p>
+        <button class="btn-back" onclick="window.location.href='login.html'">返回首页</button>
+    </div>
+
+    <script src="js/ink-animation.js"></script>
+    <script src="js/ink-interaction.js"></script>
+</body>
+</html>

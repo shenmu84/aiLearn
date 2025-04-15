@@ -1,0 +1,47 @@
+<!-- frontend/assign_homework.html -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>布置作业</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>布置新作业</h1>
+
+  <section class="card">
+    <input type="text" id="title" placeholder="作业标题">
+    <textarea id="description" placeholder="作业描述"></textarea>
+    <button onclick="assignHomework()">提交作业</button>
+  </section>
+
+  <button onclick="goHome()">返回主页</button>
+
+  <script>
+    async function assignHomework() {
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+
+      const res = await fetch("/api/teacher/assign_homework", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ title, description })
+      });
+
+      const result = await res.json();
+      alert(result.message || result.error);
+    }
+
+    function goHome() {
+      window.location.href = "teacher-dashboard.html";
+    }
+  </script>
+<!-- 退出按钮代码，放在所有HTML文件中 -->
+<div id="logout-button" style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
+    <button onclick="window.location.href='/login'" style="padding: 10px 20px; background-color: red; color: white; border: none; cursor: pointer; font-size: 16px;">
+        退出登录
+    </button>
+</div>
+
+</body>
+</html>

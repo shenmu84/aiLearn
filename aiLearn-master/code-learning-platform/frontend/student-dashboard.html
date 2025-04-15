@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>学生主页</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ink-theme.css">
+
+</head>
+<body>
+  <h2>学生主页</h2>
+    <!-- 用于处理登出和返回主页按钮 -->
+  <script src="js/logout.js"></script>
+  <script>renderLogoutButton(); renderGoHomeButton("#back-button");</script>
+
+  <div id="content"></div>
+
+  <script src="js/student.js"></script>
+<script src="js/logout.js"></script>
+<script>
+  renderLogoutButton();  // 默认挂载到 <body>
+</script>
+
+
+</body>
+</html>

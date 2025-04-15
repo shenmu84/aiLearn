@@ -1,0 +1,62 @@
+<!-- frontend/review_submissions.html -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>批改作业</title>
+      <link rel="stylesheet" href="ink-theme.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>学生作业提交列表</h1>
+
+  <div id="submission-list" class="card"></div>
+  <button onclick="goHome()">返回主页</button>
+
+  <script>
+    async function fetchSubmissions() {
+      const res = await fetch("/api/teacher/submissions");
+      const data = await res.json();
+      const container = document.getElementById("submission-list");
+
+      if (!Array.isArray(data)) {
+        container.innerHTML = `<p>${data.error || "获取失败"}</p>`;
+        return;
+      }
+
+      container.innerHTML = data.map(s => `
+        <div class="submission-item">
+          <h3>${s.student} 提交了 ${s.assignment}</h3>
+          <p><strong>内容：</strong> ${s.solution}</p>
+          <textarea id="feedback-${s.id}" placeholder="填写反馈"></textarea>
+          <button onclick="submitFeedback(${s.id})">提交反馈</button>
+        </div>
+      `).join('');
+    }
+
+    async function submitFeedback(id) {
+      const feedback = document.getElementById(`feedback-${id}`).value;
+      const res = await fetch(`/api/teacher/feedback/${id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ feedback })
+      });
+      const result = await res.json();
+      alert(result.message || result.error);
+    }
+
+    function goHome() {
+      window.location.href = "teacher-dashboard.html";
+    }
+
+    fetchSubmissions();
+  </script>
+<!-- 退出按钮代码，放在所有HTML文件中 -->
+<div id="logout-button" style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
+    <button onclick="window.location.href='/login'" style="padding: 10px 20px; background-color: red; color: white; border: none; cursor: pointer; font-size: 16px;">
+        退出登录
+    </button>
+</div>
+
+</body>
+</html>

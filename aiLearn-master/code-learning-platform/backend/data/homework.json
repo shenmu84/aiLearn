@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Python 作业1",
+    "description": "完成列表操作练习书上187页例题部分",
+    "assigned_date": "2025-04-13",
+    "course": "Python 入门"
+  },
+  {
+    "id": 2,
+    "title": "算法课作业1",
+    "description": "实现冒泡排序",
+    "assigned_date": "2025-04-12",
+    "course": "算法课程"
+  },
+  {
+    "id": 3,
+    "title": "Python 入门 作业 3",
+    "description": "测试",
+    "assigned_date": "2025-04-14",
+    "course": "Python 入门"
+  }
+]

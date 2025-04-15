@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>注册账号</title>
+  <link rel="stylesheet" href="ink-style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "STKaiti", KaiTi, serif;
+      background: url('images/ink-bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .ink-container {
+      background: rgba(255, 255, 255, 0.85);
+      border: 6px double #000;
+      padding: 40px 60px;
+      border-radius: 24px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+      backdrop-filter: blur(4px);
+      animation: fadeIn 1.5s ease;
+    }
+
+    .ink-title {
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+      color: #222;
+      letter-spacing: 3px;
+      position: relative;
+    }
+
+    .ink-title::after {
+      content: '';
+      width: 100px;
+      height: 4px;
+      background: #444;
+      display: block;
+      margin: 10px auto 0;
+    }
+
+    .ink-form input,
+    .ink-form select {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      font-size: 1rem;
+      border: 1px solid #999;
+      border-radius: 6px;
+      font-family: inherit;
+    }
+
+    .ink-form select {
+      background-color: #f9f9f9;
+    }
+
+    .ink-button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1rem;
+      background: #2c2c2c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .ink-button:hover {
+      background: #000;
+    }
+
+    .secondary {
+      background: transparent;
+      color: #333;
+      border: 1px solid #333;
+    }
+
+    .secondary:hover {
+      background: #333;
+      color: white;
+    }
+
+    .ink-message {
+      margin-top: 16px;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .ink-footer {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="ink-container">
+    <form id="registerForm" class="ink-form">
+      <input type="text" id="username" name="username" placeholder="账号" required />
+      <input type="password" id="password" name="password" placeholder="密码" required />
+      <select id="role" name="role" required>
+        <option value="" disabled selected>请选择身份</option>
+        <option value="student">学生</option>
+        <option value="teacher">教师</option>
+      </select>
+      <button type="submit" class="ink-button">注册</button>
+      <p id="message" class="ink-message"></p>
+    </form>
+
+    <div class="ink-footer">
+      <button onclick="window.location.href='login.html'" class="ink-button secondary">返回登录</button>
+    </div>
+  </div>
+
+  <script src="js/ink-animation.js"></script>
+  <script src="js/ink-interaction.js"></script>
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const role = document.getElementById('role').value;
+
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, role })
+      });
+
+      const result = await response.json();
+      const messageEl = document.getElementById('message');
+      if (result.success) {
+        messageEl.textContent = "✅ 注册成功，将返登录页...";
+        messageEl.style.color = "green";
+        setTimeout(() => window.location.href = 'login.html', 1500);
+      } else {
+        messageEl.textContent = result.message || "❌ 注册失败，请重试";
+        messageEl.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

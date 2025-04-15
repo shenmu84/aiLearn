@@ -1,0 +1,50 @@
+<!-- 学生查看成绩页面 -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>查看成绩</title>
+  <link rel="stylesheet" href="ink-theme.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* 可选：直接内嵌美化的样式 */
+    table {
+      margin: 30px auto;
+      width: 80%;
+      border-collapse: collapse;
+      background-color: #fff;
+    }
+    thead {
+      background-color: #f0f0f0;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+<div id="back-button"></div>
+
+  <h2 style="text-align:center;">我的成绩</h2>
+
+  <table border="1">
+    <thead>
+      <tr><th>作业</th><th>我的答案</th><th>讲师反馈</th><th>成绩</th></tr>
+    </thead>
+    <tbody id="grades-table">
+      <!-- 成绩数据将通过 JS 动态插入 -->
+    </tbody>
+  </table>
+<script src="js/navigation.js"></script>
+  <script src="js/logout.js"></script>
+  <script>renderGoHomeButton("#back-button");
+  renderLogoutButton();</script>
+  <script src="js/student_grades.js"></script>
+</body>
+</html>

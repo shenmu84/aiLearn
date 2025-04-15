@@ -1,0 +1,17 @@
+import os
+#这个代码可以遍历所有的文件
+def list_all_files_and_dirs(path, indent=0):
+    try:
+        for entry in os.listdir(path):
+            full_path = os.path.join(path, entry)
+            print('    ' * indent + '├─' + entry)
+            if os.path.isdir(full_path):
+                list_all_files_and_dirs(full_path, indent + 1)
+    except PermissionError:
+        print('    ' * indent + '├─[权限被拒绝]')
+    except FileNotFoundError:
+        print('    ' * indent + '├─[路径不存在]')
+
+root_path = r'D:\learn\Program\python\code\code-learning-platform\code-learning-platform'
+list_all_files_and_dirs(root_path)
+

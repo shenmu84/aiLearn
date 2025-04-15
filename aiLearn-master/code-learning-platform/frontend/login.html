@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>登录</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="ink-style.css">
+  <style>
+    .ink-container { opacity: 0; }
+    .login-form { will-change: transform; }
+    #inkCanvas { position: fixed; z-index: 0; top: 0; left: 0; }
+  </style>
+</head>
+<body class="ink-container login-bg">
+  <canvas id="inkCanvas"></canvas>
+
+  <main class="login-form">
+    <h2 class="ink-title">编程学习平台</h2>
+    <form id="login-form" class="ink-form">
+      <div class="input-group">
+        <input type="text" id="username" class="ink-input" required>
+        <label for="username">用户名</label>
+        <div class="ink-bar"></div>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="password" class="ink-input" required>
+        <label for="password">密码</label>
+        <div class="ink-bar"></div>
+      </div>
+
+      <button type="submit" class="ink-btn">登录</button>
+    </form>
+    <!-- 注册按钮块 -->
+    <div class="register-container">
+      <p>没有账号？
+        <button type="button" class="register-btn" id="register-btn">注册</button>
+      </p>
+    </div>
+  </main>
+
+  <script src="js/ink-animation.js"></script>
+  <script src="js/ink-interaction.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      document.querySelector('.ink-container').style.opacity = 1;
+      new InkSystem(); // 初始化金鱼动画系统
+    });
+
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: document.getElementById('username').value,
+          password: document.getElementById('password').value
+        })
+      });
+      const data = await res.json();
+      if (data.role) {
+        localStorage.setItem('user', JSON.stringify(data));
+        window.location.href = data.redirect;
+      } else {
+        alert(data.error);
+      }
+    });
+      // 注册按钮点击跳转
+    document.getElementById('register-btn').addEventListener('click', function () {
+      console.log("跳转到注册页面");
+      window.location.href = '/register-ink.html';
+    });
+  </script>
+
+
+
+
+
+</body>
+</html>

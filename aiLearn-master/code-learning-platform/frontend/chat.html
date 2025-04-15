@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>AI 问答 - 编程平台</title>
+  <link rel="stylesheet" href="ai-style.css">
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<canvas id="particles-canvas"></canvas>
+
+
+<!-- “AI 正在思考...”加载动画 -->
+<div id="loading-indicator" class="loading hidden">AI 正在思考...</div>
+
+
+  <div class="chat-wrapper">
+    <div class="chat-header">🤖 AI 编程助手</div>
+    <div class="chat-container" id="chat-box">
+      <!-- 消息将插入这里 -->
+    </div>
+
+  <div class="input-container">
+  <input type="text" id="user-input" placeholder="请输入你的问题..." autocomplete="off" />
+  <button id="send-btn">发送</button>
+</div>
+
+
+  </div>
+<script src="js/navigation.js"></script>
+    <!-- 用于处理登出和返回主页按钮 -->
+  <script src="js/logout.js"></script>
+  <script>renderLogoutButton(); renderGoHomeButton("#back-button");</script>
+
+  <script>
+    window.onload = () => {
+      renderGoHomeButton();
+    };
+
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    function appendMessage(text, isUser = true) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message');
+      msgDiv.classList.add(isUser ? 'user' : 'bot');
+      msgDiv.innerText = text;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+     sendBtn.onclick = async () => {
+      const message = userInput.value.trim();
+      if (!message) return;
+
+      appendMessage(message, true);
+
+      // 设置输入框为“正在思考...”并禁用
+      userInput.value = "AI 正在思考...";
+      userInput.disabled = true;
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        appendMessage(data.response, false);
+      } catch (error) {
+        appendMessage("发生错误，请稍后再试。", false);
+      } finally {
+        // 恢复输入框
+        userInput.value = "";
+        userInput.disabled = false;
+        userInput.focus(); // 让输入框重新获得焦点
+      }
+    };
+
+
+
+
+    userInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendBtn.click();
+    });
+  </script>
+<script src="js/particle-background.js"></script>
+<script src="js/loading-animation.js"></script>
+<script src="js/chat-logic.js"></script>
+</body>
+</html>

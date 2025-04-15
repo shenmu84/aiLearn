@@ -1,0 +1,16 @@
+[
+  {
+    "assignment_id": 1,
+    "student": "student1",
+    "solution": "operation_list = []\n\n# \u6dfb\u52a0\u64cd\u4f5c\u5230\u5217\u8868\u4e2d\noperation_list.append(\"add\")\noperation_list.append(\"subtract\")\noperation_list.append(\"multiply\")\n\n# \u6253\u5370\u64cd\u4f5c\u5217\u8868\nfor operation in operation_list:\n    print(operation)",
+    "score": null,
+    "feedback": null
+  },
+  {
+    "assignment_id": 1,
+    "student": "student1",
+    "solution": "test1",
+    "score": null,
+    "feedback": null
+  }
+]

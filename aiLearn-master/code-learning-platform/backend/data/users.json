@@ -1,0 +1,92 @@
+[
+  {
+    "name": "小明",
+    "password": "123456",
+    "role": "student",
+    "username": "student01"
+  },
+  {
+    "name": "小红",
+    "password": "123456",
+    "role": "student",
+    "username": "student02"
+  },
+  {
+    "name": "小刚",
+    "password": "123456",
+    "role": "student",
+    "username": "student03"
+  },
+  {
+    "name": "小芳",
+    "password": "123456",
+    "role": "student",
+    "username": "student04"
+  },
+  {
+    "name": "小强",
+    "password": "123456",
+    "role": "student",
+    "username": "student05"
+  },
+  {
+    "name": "小丽",
+    "password": "123456",
+    "role": "student",
+    "username": "student06"
+  },
+  {
+    "name": "小波",
+    "password": "123456",
+    "role": "student",
+    "username": "student07"
+  },
+  {
+    "name": "小倩",
+    "password": "123456",
+    "role": "student",
+    "username": "student08"
+  },
+  {
+    "name": "小军",
+    "password": "123456",
+    "role": "student",
+    "username": "student09"
+  },
+  {
+    "name": "小兰",
+    "password": "123456",
+    "role": "student",
+    "username": "student10"
+  },
+  {
+    "password": "123456",
+    "role": "student",
+    "username": "student1"
+  },
+  {
+    "password": "123456",
+    "role": "teacher",
+    "username": "teacher1"
+  },
+  {
+    "password": "123456",
+    "role": "admin",
+    "username": "admin1"
+  },
+  {
+    "password": "123456",
+    "role": "student",
+    "username": "stu"
+  },
+  {
+    "password": "1",
+    "role": "student",
+    "username": "1"
+  },
+  {
+    "password": "1",
+    "role": "student",
+    "username": "2"
+  }
+]

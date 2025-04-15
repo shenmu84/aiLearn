@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>管理员主页</title>
+      <link rel="stylesheet" href="ink-theme.css">
+  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <h2>管理员主页</h2>
+    <!-- 用于处理登出和返回主页按钮 -->
+  <script src="js/logout.js"></script>
+  <script>renderLogoutButton(); renderGoHomeButton("#back-button");</script>
+
+  <div id="content"></div>
+  <script src="js/admin.js"></script>
+<!-- 退出按钮代码，放在所有HTML文件中 -->
+<div id="logout-button" style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
+    <button onclick="window.location.href='/login'" style="padding: 10px 20px; background-color: red; color: white; border: none; cursor: pointer; font-size: 16px;">
+        退出登录
+    </button>
+</div>
+
+</body>
+</html>

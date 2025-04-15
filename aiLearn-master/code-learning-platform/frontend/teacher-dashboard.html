@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>教师主页</title>
+    <link rel="stylesheet" href="ink-theme.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>教师主页</h2>
+    <!-- 用于处理登出和返回主页按钮 -->
+  <script src="js/logout.js"></script>
+  <script>renderLogoutButton(); renderGoHomeButton("#back-button");</script>
+
+  <div id="content">
+    <ul>
+      <li><a href="chat.html">AI 问答</a></li>
+      <li><a href="teacher_assign.html">布置作业</a></li>
+      <li><a href="teacher_review.html">批改作业</a></li>
+    </ul>
+  </div>
+</body>
+</html>

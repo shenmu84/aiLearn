@@ -1,0 +1,135 @@
+<!-- 文件名：frontend/system_settings.html -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>系统设置</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ink-theme.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .card h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: #007BFF;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    #back-button {
+      display: block;
+      margin: 20px auto;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>系统设置</h1>
+
+  <section class="card">
+    <h2>设置项</h2>
+    <form id="settings-form">
+      <label for="setting1">设置 1:</label>
+      <input type="text" id="setting1" name="setting1">
+
+      <label for="setting2">设置 2:</label>
+      <input type="text" id="setting2" name="setting2">
+
+      <button type="submit">保存设置</button>
+    </form>
+  </section>
+
+  <button id="back-button" onclick="goHome()">返回主页</button>
+
+  <script>
+    async function saveSettings(event) {
+      event.preventDefault();
+
+      const settings = {
+        setting1: document.getElementById("setting1").value,
+        setting2: document.getElementById("setting2").value
+      };
+
+      const res = await fetch("/api/admin/settings", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(settings)
+      });
+      const result = await res.json();
+      alert(result.message);
+    }
+
+    document.getElementById("settings-form").addEventListener("submit", saveSettings);
+
+    function goHome() {
+      window.location.href = "admin-dashboard.html";
+    }
+  </script>
+
+  <script src="js/logout.js"></script>
+  <script>
+    renderLogoutButton();  // 默认挂载到 <body>
+  </script>
+</body>
+</html>

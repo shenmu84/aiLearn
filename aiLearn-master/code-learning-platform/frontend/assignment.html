@@ -1,0 +1,60 @@
+<!-- frontend/assignments.html -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>提交作业</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>提交作业</h1>
+  <div id="assignment-list"></div>
+  <button onclick="goHome()">返回主页</button>
+
+  <script>
+    async function loadAssignments() {
+      const res = await fetch("/api/assignments");
+      const data = await res.json();
+      const container = document.getElementById("assignment-list");
+
+      if (Array.isArray(data)) {
+        container.innerHTML = data.map(a => `
+          <div class="card">
+            <h3>${a.title}</h3>
+            <p>${a.description}</p>
+            <textarea id="solution-${a.id}" placeholder="请输入答案"></textarea>
+            <button onclick="submitAssignment(${a.id})">提交</button>
+          </div>
+        `).join('');
+      } else {
+        container.innerHTML = `<p>${data.error || "加载失败"}</p>`;
+      }
+    }
+
+    async function submitAssignment(id) {
+      const solution = document.getElementById(`solution-${id}`).value;
+      const res = await fetch("/api/assignments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ assignment_id: id, solution })
+      });
+      const result = await res.json();
+      alert(result.message || result.error);
+    }
+
+    function goHome() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      window.location.href = `${user.role}-dashboard.html`;
+    }
+
+    loadAssignments();
+  </script>
+<!-- 退出按钮代码，放在所有HTML文件中 -->
+<div id="logout-button" style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
+    <button onclick="window.location.href='/login'" style="padding: 10px 20px; background-color: red; color: white; border: none; cursor: pointer; font-size: 16px;">
+        退出登录
+    </button>
+</div>
+
+</body>
+</html>

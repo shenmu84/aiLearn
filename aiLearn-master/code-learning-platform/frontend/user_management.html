@@ -1,0 +1,168 @@
+<!-- 文件名：frontend/user_management.html -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>用户管理</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    .card h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    input[type="text"], input[type="password"], select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    #back-button {
+      display: block;
+      margin: 20px auto;
+      text-align: center;
+    }
+  </style>
+    <link rel="stylesheet" href="ink-theme.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>用户管理</h1>
+
+  <section class="card">
+    <h2>用户列表</h2>
+    <table id="user-table">
+      <thead>
+        <tr>
+          <th>用户名</th>
+          <th>角色</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>添加新用户</h2>
+    <input type="text" id="new-username" placeholder="用户名">
+    <input type="password" id="new-password" placeholder="密码">
+    <select id="new-role">
+      <option value="student">学生</option>
+      <option value="teacher">教师</option>
+      <option value="admin">管理员</option>
+    </select>
+    <button onclick="addUser()">添加用户</button>
+  </section>
+
+  <button id="back-button" onclick="goHome()">返回主页</button>
+
+  <script>
+    async function fetchUsers() {
+      const res = await fetch("/api/admin/users");
+      const users = await res.json();
+      const tbody = document.querySelector("#user-table tbody");
+      tbody.innerHTML = "";
+
+      users.forEach(user => {
+        const row = `
+          <tr>
+            <td>${user.username}</td>
+            <td>${user.role}</td>
+            <td><button onclick="deleteUser('${user.username}')">删除</button></td>
+          </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    async function addUser() {
+      const username = document.getElementById("new-username").value;
+      const password = document.getElementById("new-password").value;
+      const role = document.getElementById("new-role").value;
+
+      const res = await fetch("/api/admin/add_user", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ username, password, role })
+      });
+      const result = await res.json();
+      alert(result.message || result.error);
+      fetchUsers();
+    }
+
+    async function deleteUser(username) {
+      const confirmed = confirm(`确认删除用户 ${username} 吗？`);
+      if (!confirmed) return;
+
+      const res = await fetch(`/api/admin/delete_user/${username}`, {
+        method: "DELETE"
+      });
+      const result = await res.json();
+      alert(result.message || result.error);
+      fetchUsers();
+    }
+
+    function goHome() {
+      window.location.href = "admin-dashboard.html";
+    }
+
+    fetchUsers();
+  </script>
+
+  <script src="js/logout.js"></script>
+  <script>
+    renderLogoutButton();  // 默认挂载到 <body>
+  </script>
+</body>
+</html>

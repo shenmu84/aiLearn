@@ -1,0 +1,71 @@
+<!-- 教师批改作业页面 -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>批改作业</title>
+  <link rel="stylesheet" href="ink-theme.css">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="js/navigation.js"></script>
+</head>
+<body>
+  <h2>批改作业</h2>
+  <div id="back-button"></div>
+  <div id="submissions">加载中...</div>
+
+  <!-- 用于处理登出和返回主页按钮 -->
+  <script src="js/logout.js"></script>
+  <script>renderLogoutButton(); renderGoHomeButton("#back-button");</script>
+
+  <!-- 在页面加载时获取作业提交并渲染 -->
+  <script>
+    async function fetchSubmissions() {
+      const res = await fetch('/api/teacher/submissions');
+      const data = await res.json();
+
+      const container = document.getElementById('submissions');
+      if (data.error) {
+        container.innerText = data.error;
+        return;
+      }
+
+      container.innerHTML = '';  // 清空之前的内容
+
+      data.forEach(sub => {
+        const div = document.createElement('div');
+        div.className = 'submission';
+        div.innerHTML = `
+        <p><strong>学生:</strong> ${sub.student}</p>
+        <p><strong>作业内容:</strong></p>
+        <pre>${sub.solution}</pre>
+        <label>评分: <input type="number" id="score-${sub.assignment_id}" min="0" max="100"></label>
+        <label>反馈: <input type="text" id="feedback-${sub.assignment_id}"></label>
+       <button onclick="submitFeedback(${sub.assignment_id}, '${sub.student}')">提交评分</button>
+
+        <hr>
+        `;
+
+        container.appendChild(div);
+      });
+    }
+
+    async function submitFeedback(assignmentId,student) {
+      const score = document.getElementById(`score-${assignmentId}`).value;
+      const feedback = document.getElementById(`feedback-${assignmentId}`).value;
+
+      const res = await fetch('/api/teacher/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ assignment_id: assignmentId,  student: student,feedback, score })
+      });
+
+      const result = await res.json();
+      alert(result.message || result.error);
+    }
+
+    // 页面加载时调用 fetchSubmissions 函数
+    fetchSubmissions();
+  </script>
+</body>
+</html>
